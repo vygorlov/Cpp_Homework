@@ -9,13 +9,14 @@ OBJ := $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 .PHONY: all clean
 
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
+	$(CC) -c src/hw1.cpp -o obj/hw1.o
+	$(CC) -c src/auxiliary.cpp -o obj/auxiliary.o
+
 all: $(EXE)
 
 $(EXE): $(OBJ) | $(BIN_DIR)
 	$(CC) $(OBJ) -o $(EXE)
-
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
-	$(CC) -c $(SRC) -o $(OBJ)
 
 clean:
 	@$(RM) -rv $(BIN_DIR) $(OBJ_DIR)

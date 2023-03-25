@@ -3,7 +3,7 @@
 
 #include <map>
 #include <string>
-#include <auxiliary.hpp>
+#include "../include/auxiliary.hpp"
 
 
 int main(int argc, char *argv[]) {

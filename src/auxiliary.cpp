@@ -1,11 +1,6 @@
-#include <vector>
-#include <sstream>
-#include <string>
-#include <iostream>
-#include <map>
-#include <fstream>
+#include "../include/auxiliary.hpp"
 
-std::vector<std::string> split(std::string line, char split_symbol) {
+std::vector<std::string> split(const std::string& line, const char split_symbol) {
     std::vector<std::string> elems;
     std::stringstream stringstream;
     std::string item;
@@ -16,7 +11,7 @@ std::vector<std::string> split(std::string line, char split_symbol) {
     return elems;
 }
 
-int check_input(int argc) {
+int check_input(const int& argc) {
     if (argc < 4) {
         std::cout << "Invalid input" << std::endl;
         return 1;
@@ -24,29 +19,37 @@ int check_input(int argc) {
     return 0;
 }
 
-void print_info(std::vector<std::string> elems, std::map<std::string, std::string> gender) {
+void print_info(const std::vector<std::string>& elems, std::map<std::string, std::string>& gender) {
     std::string info = "Artist Name: " + elems[2];
 
-    if (elems[4] ==" " || elems[4] == "\\N") info += "\nYear of birth: None";
-    else
+    if (elems[4] ==" " || elems[4] == "\\N") {
+        info += "\nYear of birth: None";
+    } else {
         info += "\nYear of birth: " + elems[4];
+    }
 
-    if (elems[5] == "" || elems[5] == "\\N") info += "\nMonth of birth: None";
-    else
+    if (elems[5] == "" || elems[5] == "\\N") {
+        info += "\nMonth of birth: None";
+    } else {
         info += "\nMonth of birth: " + elems[5];
+    }
 
-    if (elems[6] == "" || elems[6] == "\\N") info += "\nDay of birth: None";
-    else
+    if (elems[6] == "" || elems[6] == "\\N") {
+        info += "\nDay of birth: None";
+    } else {
         info += "\nDay of birth: " + elems[6];
+    }
 
-    if (elems[12] == "" || elems[12] == "\\N") info += "\nGender: None";
-    else
+    if (elems[12] == "" || elems[12] == "\\N") {
+        info += "\nGender: None";
+    } else {
         info += "\nGender: " + gender[elems[12]];
-
+    }
+    
     std::cout << info << std::endl;
 }
 
-std::string get_artist_name(int argc, char *argv[]) {
+std::string get_artist_name(const int& argc, char *argv[]) {
     std::string artist_name = argv[3];
     if (argc > 3) {
         for (int i=4; i < argc; i++) {
@@ -57,7 +60,7 @@ std::string get_artist_name(int argc, char *argv[]) {
     return artist_name;
 }
 
-std::map<std::string, std::string> get_gender_map(std::string gender_filename) {
+std::map<std::string, std::string> get_gender_map(const std::string& gender_filename) {
     std::map<std::string, std::string> gender;
     std::string line;
     std::ifstream gender_instream(gender_filename);
@@ -71,7 +74,7 @@ std::map<std::string, std::string> get_gender_map(std::string gender_filename) {
     return gender;
 }
 
-void show_artist_info(std::string artist_filename, std::string artist_name, std::map<std::string, std::string> gender_map) {
+void show_artist_info(const std::string& artist_filename, const std::string& artist_name, std::map<std::string, std::string>& gender_map) {
     std::string line;
     std::ifstream artist_instream(artist_filename);
     if (artist_instream.is_open()) {
