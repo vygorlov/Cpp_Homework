@@ -5,18 +5,18 @@ std::vector<std::string> split(const std::string& line, const char split_symbol)
     std::stringstream stringstream;
     std::string item;
     stringstream.str(line);
-    while (std::getline(stringstream, item, split_symbol)) {
+    while (getline(stringstream, item, split_symbol)) {
         elems.push_back(item);
     }
     return elems;
 }
 
-int check_input(const int& argc) {
+bool check_input(const unsigned int argc) {
     if (argc < 4) {
-        std::cout << "Invalid input" << std::endl;
-        return 1;
+        std::cerr << "Invalid input" << std::endl;
+        return false;
     }
-    return 0;
+    return true;
 }
 
 void print_info(const std::vector<std::string>& elems, std::map<std::string, std::string>& gender) {
@@ -49,7 +49,7 @@ void print_info(const std::vector<std::string>& elems, std::map<std::string, std
     std::cout << info << std::endl;
 }
 
-std::string get_artist_name(const int& argc, char *argv[]) {
+std::string get_artist_name(const unsigned int& argc, char *argv[]) {
     std::string artist_name = argv[3];
     if (argc > 3) {
         for (int i=4; i < argc; i++) {
@@ -62,16 +62,19 @@ std::string get_artist_name(const int& argc, char *argv[]) {
 
 std::map<std::string, std::string> get_gender_map(const std::string& gender_filename) {
     std::map<std::string, std::string> gender;
-    std::string line;
     std::ifstream gender_instream(gender_filename);
     if (gender_instream.is_open()) {
+        std::string line;
         while (getline(gender_instream, line)) {
             std::vector<std::string> elems = split(line, '\t');
             gender[elems[0]] = elems[1];
         }
+        gender_instream.close();
+        return gender;
+    } else {
+        std::cerr << "Error: Gender file is not open" << std::endl;
+        exit(1);
     }
-    gender_instream.close();
-    return gender;
 }
 
 void show_artist_info(const std::string& artist_filename, const std::string& artist_name, std::map<std::string, std::string>& gender_map) {
@@ -82,9 +85,14 @@ void show_artist_info(const std::string& artist_filename, const std::string& art
             std::vector<std::string> elems = split(line, '\t');
             if (elems[2] == artist_name) {
                 print_info(elems, gender_map);
-                break;
+                artist_instream.close();
+                return;
             }
         }
+        std::cerr << "Error: Artist not found" << std::endl;
+        exit(1);
+    } else {
+        std::cerr << "Error: Artist file is not open" << std::endl;
+        exit(1);
     }
-    artist_instream.close();
 }

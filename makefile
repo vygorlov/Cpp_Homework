@@ -10,7 +10,7 @@ OBJ := $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 .PHONY: all clean
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
-	$(CC) -c src/hw1.cpp -o obj/hw1.o
+	$(CC) -c src/main.cpp -o obj/main.o
 	$(CC) -c src/auxiliary.cpp -o obj/auxiliary.o
 
 all: $(EXE)
